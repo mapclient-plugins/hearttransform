@@ -1,0 +1,16 @@
+'''
+Created on May 22, 2015
+
+@author: hsorby
+'''
+ELEMENT_OUTLINE_GRAPHIC_NAME = 'element_outline'
+IMAGE_PLANE_GRAPHIC_NAME = 'image_plane'
+
+LONG_AXIS = 1
+SHORT_AXIS = 2
+
+SELECTION_PART = 'SELECTION'
+APEX_PART = 'APEX'
+BASE_PART = 'BASE'
+RV_PART = 'RV'
+DEPENDENT_PART = 'DEPENDENT'

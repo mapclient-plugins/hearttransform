@@ -6,12 +6,15 @@ import os
 
 import json
 
-
-from PySide import QtGui
-
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
 from mapclientplugins.hearttransformstep.configuredialog import ConfigureDialog
+from mapclientplugins.hearttransformstep.definitions import LONG_AXIS,\
+    SHORT_AXIS
+from mapclientplugins.hearttransformstep.model.master import HeartTransformModel
+from mapclientplugins.hearttransformstep.view.hearttransformwidget import HeartTransformWidget
 
+class AffineTransformation(object):
+    pass
 
 class HeartTransformStep(WorkflowStepMountPoint):
     '''
@@ -36,6 +39,10 @@ class HeartTransformStep(WorkflowStepMountPoint):
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#affinetransform'))
         self._config = {}
         self._config['identifier'] = ''
+        self._image_data = {}
+        self._image_data[LONG_AXIS] = None
+        self._image_data[SHORT_AXIS] = None
+        self._view = None
 
 
     def execute(self):
@@ -44,8 +51,19 @@ class HeartTransformStep(WorkflowStepMountPoint):
         Make sure you call the _doneExecution() method when finished.  This method
         may be connected up to a button in a widget for example.
         '''
-        # Put your execute step code here before calling the '_doneExecution' method.
-        self._doneExecution()
+        if self._view is None:
+            model = HeartTransformModel()
+            model.setLocation(os.path.join(self._location, self._config['identifier']))
+            self._view = HeartTransformWidget(model)
+            self._view.registerDoneExecution(self._doneExecution)
+
+        if self._image_data[LONG_AXIS] is not None:
+            self._view.setImageData(LONG_AXIS, self._image_data[LONG_AXIS])
+        if self._image_data[SHORT_AXIS] is not None:
+            self._view.setImageData(SHORT_AXIS, self._image_data[SHORT_AXIS])
+        self._view.initialise()
+        
+        self._setCurrentWidget(self._view)
 
     def setPortData(self, index, dataIn):
         '''
@@ -54,9 +72,9 @@ class HeartTransformStep(WorkflowStepMountPoint):
         uses port for this step then the index can be ignored.
         '''
         if index == 0:
-            portData0 = dataIn # http://physiomeproject.org/workflow/1.0/rdf-schema#images
+            self._image_data[LONG_AXIS] = dataIn # http://physiomeproject.org/workflow/1.0/rdf-schema#images
         else:
-            portData1 = dataIn # http://physiomeproject.org/workflow/1.0/rdf-schema#images
+            self._image_data[SHORT_AXIS] = dataIn # http://physiomeproject.org/workflow/1.0/rdf-schema#images
 
     def getPortData(self, index):
         '''
@@ -64,8 +82,8 @@ class HeartTransformStep(WorkflowStepMountPoint):
         The index is the index of the port in the port list.  If there is only one
         provides port for this step then the index can be ignored.
         '''
-        portData2 = None # http://physiomeproject.org/workflow/1.0/rdf-schema#affinetransform
-        return portData2
+        # http://physiomeproject.org/workflow/1.0/rdf-schema#affinetransform
+        return self._view.getAffineTransformation()
 
     def configure(self):
         '''
