@@ -12,7 +12,7 @@ def extractImageCorners(directory, filename):
     Extract the image corners from an image that is assumed to be
     a DICOM image.
     Corners are returned as:
-      [tl, tr, bl, br]
+      [bl, br, tl, tr]
     '''
     ds = dicom.read_file(os.path.join(directory, filename))
     pixel_spacing = ds.PixelSpacing
@@ -38,4 +38,4 @@ def extractImageCorners(directory, filename):
     bl = np.dot(A, b_bl)
     br = np.dot(A, b_br)
 
-    return [tl[:3].tolist(), tr[:3].tolist(), bl[:3].tolist(), br[:3].tolist()]
+    return [bl[:3].tolist(), br[:3].tolist(), tl[:3].tolist(), tr[:3].tolist()]

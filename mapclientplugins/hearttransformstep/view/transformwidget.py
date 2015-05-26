@@ -8,6 +8,7 @@ from PySide import QtCore
 from opencmiss.zincwidgets.sceneviewerwidget import SceneviewerWidget
 
 from mapclientplugins.hearttransformstep.maths.algorithms import calculateLinePlaneIntersection
+from opencmiss.zinc.graphics import Graphics
 
 class TransformWidget(SceneviewerWidget):
     '''
@@ -23,6 +24,15 @@ class TransformWidget(SceneviewerWidget):
         self._model = None
         self._active_button = QtCore.Qt.NoButton
         
+#         self.graphicsInitialized.connect(self._setSceneFilter)
+        
+    def _setSceneFilter(self):
+        scene = self._sceneviewer.getScene()
+        filtermodule = scene.getScenefiltermodule()
+        type_filter = filtermodule.createScenefilterGraphicsType(Graphics.TYPE_POINTS)
+        type_filter.setInverse(True)
+        self.setScenefilter(type_filter)
+        
     def setModel(self, model):
         self._model = model
         
@@ -31,7 +41,6 @@ class TransformWidget(SceneviewerWidget):
             return
 
         self._active_button = event.button()
-        
         self._handle_mouse_events = False
         self._active_plane = None
         self._active_node = None

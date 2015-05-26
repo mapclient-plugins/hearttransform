@@ -237,9 +237,9 @@ class TransformModel(object):
         fieldmodule = self._region.getFieldmodule()
         nodeset = fieldmodule.findNodesetByName('nodes')
         
-        base_field = fieldmodule.createFieldConstant([0.0, 0.0, 0.0])
-        apex_field = fieldmodule.createFieldConstant([0.0, 0.0, 0.0])
-        rv_field = fieldmodule.createFieldConstant([0.0, 0.0, 0.0])
+        base_field = fieldmodule.createFieldConstant([1.0, 0.0, 0.0])
+        apex_field = fieldmodule.createFieldConstant([0.0, 1.0, 0.0])
+        rv_field = fieldmodule.createFieldConstant([0.0, 0.0, 1.0])
         const_3 = fieldmodule.createFieldConstant(3.0)
         
         dir_x_field = apex_field - base_field

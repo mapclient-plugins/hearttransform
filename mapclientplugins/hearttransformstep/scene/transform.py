@@ -56,10 +56,10 @@ class TransformScene(object):
         red = materialmodule.findMaterialByName('red')
         green = materialmodule.findMaterialByName('green')
         orange = materialmodule.findMaterialByName('orange')
-        self._selection_graphics = self._createGraphics(scene, coordinate_field, yellow, self._model.getGroupField(SELECTION_PART))
-        self._base_graphics = self._createGraphics(scene, coordinate_field, red, self._model.getGroupField(BASE_PART))
-        self._apex_graphics = self._createGraphics(scene, coordinate_field, green, self._model.getGroupField(APEX_PART))
-        self._rv_graphics = self._createGraphics(scene, coordinate_field, orange, self._model.getGroupField(RV_PART))
+        self._selection_graphics = self._createGraphics(scene, coordinate_field, yellow, SELECTION_PART, gen_text_field=False)
+        self._base_graphics = self._createGraphics(scene, coordinate_field, red, BASE_PART)
+        self._apex_graphics = self._createGraphics(scene, coordinate_field, green, APEX_PART)
+        self._rv_graphics = self._createGraphics(scene, coordinate_field, orange, RV_PART)
         self._createPointGraphics()
 
     def _createPointGraphics(self):
@@ -73,7 +73,7 @@ class TransformScene(object):
         # Create a surface graphic and set it's coordinate field
         # to the finite element coordinate field.
         graphic = scene.createGraphicsPoints()
-#         graphic.setFieldDomainType(Field.DOMAIN_TYPE_DATA)
+        graphic.setFieldDomainType(Field.DOMAIN_TYPE_POINT)
         graphic.setCoordinateField(origin_field)
         graphic.setMaterial(brown)
         attributes = graphic.getGraphicspointattributes()
@@ -87,7 +87,8 @@ class TransformScene(object):
         scene.endChange()
         self._coordinate_graphics = graphic
         
-    def _createGraphics(self, scene, finite_element_field, material, subgroup_field):
+    def _createGraphics(self, scene, finite_element_field, material, part, gen_text_field=True):
+        subgroup_field = self._model.getGroupField(part)
         scene.beginChange()
         # Create a surface graphic and set it's coordinate field
         # to the finite element coordinate field.
@@ -100,8 +101,9 @@ class TransformScene(object):
         attributes = graphic.getGraphicspointattributes()
         attributes.setGlyphShapeType(Glyph.SHAPE_TYPE_SPHERE)
         attributes.setBaseSize([1.0])
-#         surface = scene.createGraphicsSurfaces()
-#         surface.setCoordinateField(finite_element_field)
+        if gen_text_field:
+            attributes.setLabelText(1,part)
+            attributes.setLabelOffset(1.0)
         scene.endChange()
 
         return graphic

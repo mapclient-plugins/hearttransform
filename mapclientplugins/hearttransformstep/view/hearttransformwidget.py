@@ -117,7 +117,6 @@ class HeartTransformWidget(QtGui.QWidget):
         self._callback = callback
         
     def _doneButtonClicked(self):
-        print self.getAffineTransformation()
         self._callback()
         
     def getAffineTransformation(self):
