@@ -22,16 +22,26 @@ class HeartTransformModel(object):
         self.defineStandardMaterials()
         self.defineStandardGlyphs()
         self._location = None
+        self._region = None
         self._image_model = ImageModel(self._context)
         self._transform_model = TransformModel(self._context)
         
+    def clear(self):
+        self._image_model.clear()
+        self._transform_model.clear()
+        self._region = None
+    
     def initialise(self):
-        self._image_model.initialise()
-        self._transform_model.initialise()
+        self._region = self._context.createRegion()
+        self._image_model.initialise(self._region)
+        self._transform_model.initialise(self._region)
         
     def setLocation(self, location):
         self._location = location
         
+    def getRegion(self):
+        return self._region
+    
     def getContext(self):
         return self._context
     
@@ -46,7 +56,7 @@ class HeartTransformModel(object):
         
     def getTransformationMatrix(self):
         vector = self._transform_model.getAxes()
-        mx = [vector[0:2], vector[3:5], vector[6:8]]
+        mx = [vector[0:3], vector[3:6], vector[6:9]]
         return mx
 
     def save(self):

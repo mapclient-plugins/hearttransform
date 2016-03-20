@@ -22,40 +22,47 @@ class TransformModel(object):
         '''
         self._context = context
         self._parts = [SELECTION_PART, APEX_PART, BASE_PART, RV_PART, DEPENDENT_PART]
+        self.clear()
+
+    def clear(self):
         self._active_mode_listener = None
         self._show_origin_listener = None
         self._block_signals = False
+        self._axes_field = None
+        self._switch_field = None
+        self._coordinate_field = None
         self._fields = {}
         for part in self._parts:
             self._fields[part] = {}
             self._fields[part]['nodeset_group'] = None
             self._fields[part]['group'] = None
-
-    def clear(self):
-        if hasattr(self, '_region'):
-            fieldmodule = self._region.getFieldmodule()
-            nodeset = fieldmodule.findNodesetByFieldDomainType(Field.DOMAIN_TYPE_NODES)
-            nodeset.destroyAllNodes()
-            scene = self._region.getScene()
-            scene.removeAllGraphics()
-            it = fieldmodule.createFielditerator()
-            field = it.next()
-            while field.isValid():
-                if field.isManaged():
-                    field.setManaged(False)
-                    # must reset iterator
-                    it = fieldmodule.createFielditerator()
-                field = it.next()
             
-            self._active_group = None
-            self._coordinate_field = None
-#             self._selection_group = None
-#             self._selection_group_field = None
-            self._context.getDefaultRegion().removeChild(self._region)
-            self._region = None
+        self._region = None
+        
+#         if hasattr(self, '_region'):
+#             fieldmodule = self._region.getFieldmodule()
+#             nodeset = fieldmodule.findNodesetByFieldDomainType(Field.DOMAIN_TYPE_NODES)
+#             nodeset.destroyAllNodes()
+#             scene = self._region.getScene()
+#             scene.removeAllGraphics()
+#             it = fieldmodule.createFielditerator()
+#             field = it.next()
+#             while field.isValid():
+#                 if field.isManaged():
+#                     field.setManaged(False)
+#                     # must reset iterator
+#                     it = fieldmodule.createFielditerator()
+#                 field = it.next()
+#             
+#             self._active_group = None
+#             self._coordinate_field = None
+# #             self._selection_group = None
+# #             self._selection_group_field = None
+#             self._context.getDefaultRegion().removeChild(self._region)
+#             self._region = None
             
-    def initialise(self):
-        self._setupRegion()
+    def initialise(self, region):
+        self._setupRegion(region)
         self._active_group = self._fields[APEX_PART]['nodeset_group']
         
     def serialise(self):
@@ -231,8 +238,8 @@ class TransformModel(object):
         
         return None
     
-    def _setupRegion(self):
-        self._region = self._context.getDefaultRegion().createChild('surfaces')
+    def _setupRegion(self, region):
+        self._region = region.createChild('surfaces') #  self._context.getDefaultRegion().createChild('surfaces')
         self._coordinate_field = createFiniteElementField(self._region)
         fieldmodule = self._region.getFieldmodule()
         nodeset = fieldmodule.findNodesetByName('nodes')
@@ -243,14 +250,14 @@ class TransformModel(object):
         const_3 = fieldmodule.createFieldConstant(3.0)
         
         dir_x_field = apex_field - base_field
-        temp2 = dir_x_field/const_3
+        temp2 = fieldmodule.createFieldDivide(dir_x_field, const_3)
         self._origin_field = base_field + temp2
         
         p1 = fieldmodule.createFieldDotProduct(base_field, dir_x_field)
         p2 = fieldmodule.createFieldDotProduct(rv_field, dir_x_field)
         p3 = fieldmodule.createFieldDotProduct(dir_x_field, dir_x_field)
         
-        perp_t = (p1-p2)/p3 # put missing minus sign in next equation
+        perp_t = fieldmodule.createFieldDivide((p1-p2), p3) # put missing minus sign in next equation
         lr_perp = base_field - perp_t*dir_x_field # minus sign from equation above appears here
         dir_y_field = rv_field - lr_perp
         

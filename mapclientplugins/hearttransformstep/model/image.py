@@ -26,23 +26,18 @@ class ImageModel(object):
         Constructor
         '''
         self._context = context
-        self._image_data = {}
-        self._images = []
+        self.clear()
 
     def getContext(self):
         return self._context
             
     def clear(self):
-        if hasattr(self, '_images') and self._images is not None:
-            for image in self._images:
-                image.free()
         self._image_data = {}
         self._images = []
-#         if hasattr(self, '_region') and self._region is not None:
-#             self._removeImageRegion()
+        self._region = None
         
-    def initialise(self):
-        self._createImageRegion()
+    def initialise(self, region):
+        self._region = region.createChild('images')
         self._computeImages(LONG_AXIS)
         self._computeImages(SHORT_AXIS)
     
@@ -111,25 +106,6 @@ class ImageModel(object):
                 region = self._region.createChild('SA{0}'.format(SA_count))
 
             self._images.append(ImageTexture(self, directory, filename, region))
-            
-    def _removeImageRegion(self):
-        '''
-        Removes a child region of the root region called 'image'.  Resets
-        the handle to the region to None.
-        '''
-        self._context.getDefaultRegion().removeChild(self._region)
-        self._region = None
-        
-    def _createImageRegion(self):
-        '''
-        Creates a child region of the root region called 'image'.  Stores
-        a handle to the region in the class attribute '_region'.
-        '''
-        region = self._context.getDefaultRegion().findChildByName('image')
-        if not region.isValid():
-            region = self._context.getDefaultRegion().createChild('image')
-            
-        self._region = region
 
 
 class ImageTexture(object):
@@ -181,8 +157,6 @@ class ImageTexture(object):
             # SWIG cannot handle unicode strings or rather the Zinc interface
             # files cannot handle unicode strings so we convert them to ascii
             # here.
-            if isinstance(absolute_filename, unicode):
-                absolute_filename = absolute_filename.encode('ascii', 'ignore')
             stream_information.createStreamresourceFile(absolute_filename)
 
         # Actually read in the image file into the image field.

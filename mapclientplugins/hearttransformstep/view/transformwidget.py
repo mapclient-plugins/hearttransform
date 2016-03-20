@@ -58,7 +58,7 @@ class TransformWidget(SceneviewerWidget):
                 self._model.endHierarchicalChange()
             else:
                 node_graphic = self.getNearestGraphicsNode(event.x(), event.y())
-                nearest_graphics = self.getNeareshGraphics()
+                nearest_graphics = self.getNearestGraphics()
                 if node_graphic and node_graphic.isValid()\
                    and nearest_graphics and nearest_graphics.isValid()\
                    and node_graphic == nearest_graphics:

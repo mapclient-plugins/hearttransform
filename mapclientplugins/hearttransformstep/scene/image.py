@@ -29,6 +29,7 @@ class ImageScene(object):
         
     def clear(self):
         self._outline = {}
+        self._image = None
 
     def _createTextureSurface(self, region, coordinate_field):
         scene = region.getScene()

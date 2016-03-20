@@ -190,4 +190,4 @@ class Ui_HeartTransformWidget(object):
         self.comboBoxMode.setItemText(2, QtGui.QApplication.translate("HeartTransformWidget", "RV", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBox.setItemText(self.toolBox.indexOf(self.pageSegmentation), QtGui.QApplication.translate("HeartTransformWidget", "Transform", None, QtGui.QApplication.UnicodeUTF8))
 
-from transformwidget import TransformWidget
+from .transformwidget import TransformWidget

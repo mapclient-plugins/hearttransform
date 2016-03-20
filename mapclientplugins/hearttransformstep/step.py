@@ -56,11 +56,14 @@ class HeartTransformStep(WorkflowStepMountPoint):
             model.setLocation(os.path.join(self._location, self._config['identifier']))
             self._view = HeartTransformWidget(model)
             self._view.registerDoneExecution(self._doneExecution)
+        else:
+            self._view.clear()
 
         if self._image_data[LONG_AXIS] is not None:
             self._view.setImageData(LONG_AXIS, self._image_data[LONG_AXIS])
         if self._image_data[SHORT_AXIS] is not None:
             self._view.setImageData(SHORT_AXIS, self._image_data[SHORT_AXIS])
+        
         self._view.initialise()
         
         self._setCurrentWidget(self._view)

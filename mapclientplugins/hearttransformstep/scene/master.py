@@ -31,3 +31,6 @@ class HeartTransformScene(object):
     def setNodeGraphicsSize(self, value):
         self._transform_scene.setGraphicsSize(value)
         
+    def getScene(self):
+        return self._master_model.getRegion().getScene()
+        
