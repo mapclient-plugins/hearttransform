@@ -175,7 +175,7 @@ class Ui_HeartTransformWidget(object):
 
     def retranslateUi(self, HeartTransformWidget):
         HeartTransformWidget.setWindowTitle(QtGui.QApplication.translate("HeartTransformWidget", "Heart Transform", None, QtGui.QApplication.UnicodeUTF8))
-        self.dockWidget.setWindowTitle(QtGui.QApplication.translate("HeartTransformWidget", "Heart Tra&nsform Tools", None, QtGui.QApplication.UnicodeUTF8))
+        self.dockWidget.setWindowTitle(QtGui.QApplication.translate("HeartTransformWidget", "Heart Transform Tools", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButtonSave.setText(QtGui.QApplication.translate("HeartTransformWidget", "Save", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButtonLoad.setText(QtGui.QApplication.translate("HeartTransformWidget", "Load", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButtonDone.setText(QtGui.QApplication.translate("HeartTransformWidget", "Done", None, QtGui.QApplication.UnicodeUTF8))
