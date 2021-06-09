@@ -1,4 +1,3 @@
-
 '''
 MAP Client Plugin Step
 '''
@@ -8,13 +7,15 @@ import json
 
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
 from mapclientplugins.hearttransformstep.configuredialog import ConfigureDialog
-from mapclientplugins.hearttransformstep.definitions import LONG_AXIS,\
+from mapclientplugins.hearttransformstep.definitions import LONG_AXIS, \
     SHORT_AXIS
 from mapclientplugins.hearttransformstep.model.master import HeartTransformModel
 from mapclientplugins.hearttransformstep.view.hearttransformwidget import HeartTransformWidget
 
+
 class AffineTransformation(object):
     pass
+
 
 class HeartTransformStep(WorkflowStepMountPoint):
     '''
@@ -24,7 +25,7 @@ class HeartTransformStep(WorkflowStepMountPoint):
 
     def __init__(self, location):
         super(HeartTransformStep, self).__init__('Heart Transform', location)
-        self._configured = False # A step cannot be executed until it has been configured.
+        self._configured = False  # A step cannot be executed until it has been configured.
         self._category = 'Transform'
         # Add any other initialisation code here:
         # Ports:
@@ -44,7 +45,6 @@ class HeartTransformStep(WorkflowStepMountPoint):
         self._image_data[SHORT_AXIS] = None
         self._view = None
 
-
     def execute(self):
         '''
         Add your code here that will kick off the execution of the step.
@@ -63,9 +63,9 @@ class HeartTransformStep(WorkflowStepMountPoint):
             self._view.setImageData(LONG_AXIS, self._image_data[LONG_AXIS])
         if self._image_data[SHORT_AXIS] is not None:
             self._view.setImageData(SHORT_AXIS, self._image_data[SHORT_AXIS])
-        
+
         self._view.initialise()
-        
+
         self._setCurrentWidget(self._view)
 
     def setPortData(self, index, dataIn):
@@ -75,9 +75,9 @@ class HeartTransformStep(WorkflowStepMountPoint):
         uses port for this step then the index can be ignored.
         '''
         if index == 0:
-            self._image_data[LONG_AXIS] = dataIn # http://physiomeproject.org/workflow/1.0/rdf-schema#images
+            self._image_data[LONG_AXIS] = dataIn  # http://physiomeproject.org/workflow/1.0/rdf-schema#images
         else:
-            self._image_data[SHORT_AXIS] = dataIn # http://physiomeproject.org/workflow/1.0/rdf-schema#images
+            self._image_data[SHORT_AXIS] = dataIn  # http://physiomeproject.org/workflow/1.0/rdf-schema#images
 
     def getPortData(self, index):
         '''
@@ -101,10 +101,10 @@ class HeartTransformStep(WorkflowStepMountPoint):
         dlg.setConfig(self._config)
         dlg.validate()
         dlg.setModal(True)
-        
+
         if dlg.exec_():
             self._config = dlg.getConfig()
-        
+
         self._configured = dlg.validate()
         self._configuredObserver()
 
@@ -127,7 +127,6 @@ class HeartTransformStep(WorkflowStepMountPoint):
         '''
         return json.dumps(self._config, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
-
     def deserialize(self, string):
         '''
         Add code to deserialize this step from string.  This method should
@@ -139,5 +138,3 @@ class HeartTransformStep(WorkflowStepMountPoint):
         d.identifierOccursCount = self._identifierOccursCount
         d.setConfig(self._config)
         self._configured = d.validate()
-
-

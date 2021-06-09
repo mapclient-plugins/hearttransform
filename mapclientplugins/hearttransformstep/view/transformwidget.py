@@ -10,11 +10,11 @@ from opencmiss.zincwidgets.sceneviewerwidget import SceneviewerWidget
 from mapclientplugins.hearttransformstep.maths.algorithms import calculateLinePlaneIntersection
 from opencmiss.zinc.graphics import Graphics
 
+
 class TransformWidget(SceneviewerWidget):
     '''
     classdocs
     '''
-
 
     def __init__(self, parent=None):
         '''
@@ -23,19 +23,19 @@ class TransformWidget(SceneviewerWidget):
         super(TransformWidget, self).__init__(parent)
         self._model = None
         self._active_button = QtCore.Qt.NoButton
-        
-#         self.graphicsInitialized.connect(self._setSceneFilter)
-        
+
+    #         self.graphicsInitialized.connect(self._setSceneFilter)
+
     def _setSceneFilter(self):
         scene = self._sceneviewer.getScene()
         filtermodule = scene.getScenefiltermodule()
         type_filter = filtermodule.createScenefilterGraphicsType(Graphics.TYPE_POINTS)
         type_filter.setInverse(True)
         self.setScenefilter(type_filter)
-        
+
     def setModel(self, model):
         self._model = model
-        
+
     def mousePressEvent(self, event):
         if self._active_button != QtCore.Qt.NoButton:
             return
@@ -59,9 +59,9 @@ class TransformWidget(SceneviewerWidget):
             else:
                 node_graphic = self.getNearestGraphicsNode(event.x(), event.y())
                 nearest_graphics = self.getNearestGraphics()
-                if node_graphic and node_graphic.isValid()\
-                   and nearest_graphics and nearest_graphics.isValid()\
-                   and node_graphic == nearest_graphics:
+                if node_graphic and node_graphic.isValid() \
+                        and nearest_graphics and nearest_graphics.isValid() \
+                        and node_graphic == nearest_graphics:
                     node = self.getNearestNode(event.x(), event.y())
                     transform_model = self._model.getTransformModel()
                     mode = transform_model.getNodeMode(node)
@@ -112,6 +112,5 @@ class TransformWidget(SceneviewerWidget):
         far_plane_point = self.unproject(x, -y, -1.0)
         near_plane_point = self.unproject(x, -y, 1.0)
         point_on_plane = calculateLinePlaneIntersection(near_plane_point, far_plane_point, plane_point, plane_normal)
-        
+
         return point_on_plane
-    

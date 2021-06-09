@@ -8,18 +8,18 @@ import os
 
 from opencmiss.zinc.field import Field
 from opencmiss.zinc.status import OK
- 
+
 from mapclientplugins.hearttransformstep.definitions import LONG_AXIS, SHORT_AXIS
 from mapclientplugins.hearttransformstep.maths.algorithms import calculatePlaneNormal
-from mapclientplugins.hearttransformstep.utils.zinc import createFiniteElementField,\
+from mapclientplugins.hearttransformstep.utils.zinc import createFiniteElementField, \
     create2DFiniteElement
 from mapclientplugins.hearttransformstep.utils.image import extractImageCorners
+
 
 class ImageModel(object):
     '''
     classdocs
     '''
-
 
     def __init__(self, context):
         '''
@@ -30,23 +30,23 @@ class ImageModel(object):
 
     def getContext(self):
         return self._context
-            
+
     def clear(self):
         self._image_data = {}
         self._images = []
         self._region = None
-        
+
     def initialise(self, region):
         self._region = region.createChild('images')
         self._computeImages(LONG_AXIS)
         self._computeImages(SHORT_AXIS)
-    
+
     def setImageData(self, axis, image_data):
         self._image_data[axis] = image_data
 
     def getImages(self):
         return self._images
-    
+
     def getPlane(self, region):
         regions = [image.getRegion() for image in self._images]
         plane_point = None
@@ -57,7 +57,7 @@ class ImageModel(object):
             coordinate_field = fieldmodule.findFieldByName('coordinates')
             nodeset = fieldmodule.findNodesetByFieldDomainType(Field.DOMAIN_TYPE_NODES)
             nodesetiterator = nodeset.createNodeiterator()
-            
+
             node = nodesetiterator.next()
             locations = []
             count = 0
@@ -68,26 +68,26 @@ class ImageModel(object):
                     locations.append(location)
                 node = nodesetiterator.next()
                 count += 1
-            
+
             if len(locations) == 3:
                 plane_point = locations[0]
                 plane_normal = calculatePlaneNormal(locations[0], locations[1], locations[2])
-            
+
         return plane_point, plane_normal
-                
+
     def getRegionNames(self):
         return [image.getRegion().getName() for image in self._images]
-    
+
     def setRegionVisibility(self, region_name, state):
         region_names = self.getRegionNames()
         if region_name in region_names:
             index = region_names.index(region_name)
             self._images[index].setVisibility(state)
-            
+
     def _computeImages(self, axis):
         if axis not in self._image_data:
             return
-        
+
         directory = self._image_data[axis].location()
         files = os.listdir(directory)
         files.sort(key=alphanum_key)
@@ -109,20 +109,19 @@ class ImageModel(object):
 
 
 class ImageTexture(object):
-    
-    
+
     def __init__(self, parent, directory, filename, region):
         self._parent = parent
         self._name = region.getName()
         self._region = region
-        
+
         fieldmodule = region.getFieldmodule()
         self._coordinate_field = createFiniteElementField(region)
         corners = extractImageCorners(directory, filename)
         create2DFiniteElement(fieldmodule, self._coordinate_field, corners)
         self._image_field = self._createImageField(fieldmodule, os.path.join(directory, filename))
         self._material = self._createMaterialUsingImageField(self._image_field)
-        
+
     def _createMaterialUsingImageField(self, image_field):
         ''' 
         Use an image field in a material to create an OpenGL texture.  Returns the
@@ -142,7 +141,7 @@ class ImageTexture(object):
         material.setTextureField(1, image_field)
 
         return material
-    
+
     def _createImageField(self, fieldmodule, absolute_filename):
         image_field = fieldmodule.createFieldImage()
         image_field.setName('image_field')
@@ -163,22 +162,22 @@ class ImageTexture(object):
         image_field.read(stream_information)
 
         return image_field
-        
+
     def getCoordinateField(self):
         return self._coordinate_field
-    
+
     def getRegion(self):
         return self._region
-    
+
     def getName(self):
         return self._name
 
     def getMaterial(self):
         return self._material
-    
+
     def setVisibility(self, state):
         self._region.getScene().setVisibilityFlag(state)
-    
+
     def free(self):
         '''
         This currently doesn't work and results in a application crash.
@@ -197,7 +196,7 @@ class ImageTexture(object):
                 # must reset iterator
                 it = fieldmodule.createFielditerator()
             field = it.next()
-            
+
         self._region = None
         self._coordinate_field = None
         self._image_field = None
@@ -210,10 +209,9 @@ def tryint(s):
     except:
         return s
 
+
 def alphanum_key(s):
     """ Turn a string into a list of string and number chunks.
     "z23a" -> ["z", 23, "a"]
     """
     return [tryint(c) for c in re.split('([0-9]+)', s)]
-
-

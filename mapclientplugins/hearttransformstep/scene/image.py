@@ -3,16 +3,17 @@ Created on May 23, 2015
 
 @author: hsorby
 '''
-from mapclientplugins.hearttransformstep.definitions import IMAGE_PLANE_GRAPHIC_NAME,\
+from mapclientplugins.hearttransformstep.definitions import IMAGE_PLANE_GRAPHIC_NAME, \
     ELEMENT_OUTLINE_GRAPHIC_NAME
 from opencmiss.zinc.field import Field
+
+
 # from opencmiss.zinc.glyph import Glyph
 
 class ImageScene(object):
     '''
     classdocs
     '''
-
 
     def __init__(self, model):
         '''
@@ -23,10 +24,10 @@ class ImageScene(object):
         '''
         self._model = model
         self.clear()
-        
+
     def initialise(self):
         self._setupVisualisation()
-        
+
     def clear(self):
         self._outline = {}
         self._image = None
@@ -42,8 +43,8 @@ class ImageScene(object):
         graphic = scene.createGraphicsSurfaces()
         graphic.setCoordinateField(coordinate_field)
         graphic.setTextureCoordinateField(xi)
-#         iso_graphic.setIsoscalarField(iso_scalar_field)
-#         iso_graphic.setListIsovalues(0.0)
+        #         iso_graphic.setIsoscalarField(iso_scalar_field)
+        #         iso_graphic.setListIsovalues(0.0)
         graphic.setName(IMAGE_PLANE_GRAPHIC_NAME)
 
         scene.endChange()

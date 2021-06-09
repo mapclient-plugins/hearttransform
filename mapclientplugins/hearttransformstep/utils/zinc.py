@@ -5,6 +5,7 @@ Created on May 21, 2015
 '''
 from opencmiss.zinc.element import Element, Elementbasis
 
+
 def createFiniteElementField(region):
     '''
     Create a finite element field of three dimensions
@@ -25,6 +26,7 @@ def createFiniteElementField(region):
     fieldmodule.endChange()
 
     return finite_element_field
+
 
 def create2DFiniteElement(fieldmodule, finite_element_field, node_coordinate_set):
     '''
@@ -60,7 +62,6 @@ def create2DFiniteElement(fieldmodule, finite_element_field, node_coordinate_set
     # the indecies of the nodes in the node template we want to use.
     node_indexes = [1, 2, 3, 4]
 
-
     # Define a nodally interpolated element field or field component in the
     # element_template
     element_template.defineFieldSimpleNodal(finite_element_field, -1, linear_basis, node_indexes)
@@ -71,4 +72,3 @@ def create2DFiniteElement(fieldmodule, finite_element_field, node_coordinate_set
 
     mesh.defineElement(-1, element_template)
     fieldmodule.defineAllFaces()
-

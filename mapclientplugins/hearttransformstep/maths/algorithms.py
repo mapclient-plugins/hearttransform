@@ -17,8 +17,9 @@ This file is part of MAP Client. (http://launchpad.net/mapclient)
     You should have received a copy of the GNU General Public License
     along with MAP Client.  If not, see <http://www.gnu.org/licenses/>..
 '''
-from mapclientplugins.hearttransformstep.maths.vectorops import add, dot, sub, mult,\
+from mapclientplugins.hearttransformstep.maths.vectorops import add, dot, sub, mult, \
     cross, normalize
+
 
 def calculateLinePlaneIntersection(pt1, pt2, point_on_plane, plane_normal):
     line_direction = sub(pt2, pt1)
@@ -29,9 +30,9 @@ def calculateLinePlaneIntersection(pt1, pt2, point_on_plane, plane_normal):
 
     return None
 
+
 def calculatePlaneNormal(pt1, pt2, pt3):
     dir_1 = sub(pt2, pt1)
     dir_2 = sub(pt3, pt1)
     cross_vec = cross(dir_1, dir_2)
     return normalize(cross_vec)
-
