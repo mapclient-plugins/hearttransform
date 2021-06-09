@@ -3,7 +3,8 @@ Created on May 21, 2015
 
 @author: hsorby
 '''
-import dicom
+#import dicom
+import pydicom
 import os
 import numpy as np
 
@@ -14,7 +15,9 @@ def extractImageCorners(directory, filename):
     Corners are returned as:
       [bl, br, tl, tr]
     '''
-    ds = dicom.read_file(os.path.join(directory, filename))
+    #ds = dicom.read_file(os.path.join(directory, filename))
+    ds = pydicom.read_file(os.path.join(directory, filename))
+
     pixel_spacing = ds.PixelSpacing
     delta_i = float(pixel_spacing[0])
     delta_j = float(pixel_spacing[1])
