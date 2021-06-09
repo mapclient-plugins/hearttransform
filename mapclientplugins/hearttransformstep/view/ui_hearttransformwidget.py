@@ -12,7 +12,7 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
-from transformwidget import TransformWidget
+from mapclientplugins.hearttransformstep.view.transformwidget import TransformWidget
 
 
 class Ui_HeartTransformWidget(object):
@@ -57,7 +57,7 @@ class Ui_HeartTransformWidget(object):
         self.toolBox.setFrameShadow(QFrame.Plain)
         self.pageFile = QWidget()
         self.pageFile.setObjectName(u"pageFile")
-        self.pageFile.setGeometry(QRect(0, 0, 197, 417))
+        self.pageFile.setGeometry(QRect(0, 0, 124, 140))
         self.verticalLayout_2 = QVBoxLayout(self.pageFile)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.horizontalLayout_4 = QHBoxLayout()
@@ -113,7 +113,7 @@ class Ui_HeartTransformWidget(object):
         self.toolBox.addItem(self.pageFile, u"File")
         self.pageView = QWidget()
         self.pageView.setObjectName(u"pageView")
-        self.pageView.setGeometry(QRect(0, 0, 197, 417))
+        self.pageView.setGeometry(QRect(0, 0, 124, 192))
         self.verticalLayout_3 = QVBoxLayout(self.pageView)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.horizontalLayout_2 = QHBoxLayout()
@@ -162,7 +162,7 @@ class Ui_HeartTransformWidget(object):
         self.toolBox.addItem(self.pageView, u"View")
         self.pageSegmentation = QWidget()
         self.pageSegmentation.setObjectName(u"pageSegmentation")
-        self.pageSegmentation.setGeometry(QRect(0, 0, 197, 417))
+        self.pageSegmentation.setGeometry(QRect(0, 0, 198, 426))
         self.verticalLayout_5 = QVBoxLayout(self.pageSegmentation)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.groupBox = QGroupBox(self.pageSegmentation)
