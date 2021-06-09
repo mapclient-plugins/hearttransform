@@ -5,14 +5,14 @@ Created on May 23, 2015
 '''
 import numpy as np
 
-from PySide import QtGui, QtCore
+from PySide2 import QtCore, QtWidgets
 
 from mapclientplugins.hearttransformstep.view.ui_hearttransformwidget import Ui_HeartTransformWidget
 from mapclientplugins.hearttransformstep.scene.master import HeartTransformScene
 from mapclientplugins.hearttransformstep.definitions import BASE_PART, APEX_PART,\
     RV_PART
 
-class HeartTransformWidget(QtGui.QWidget):
+class HeartTransformWidget(QtWidgets.QWidget):
     '''
     classdocs
     '''
@@ -111,7 +111,7 @@ class HeartTransformWidget(QtGui.QWidget):
         region_names = self._master_model.getImageRegionNames()
         
         for region_name in region_names:
-            item = QtGui.QListWidgetItem(self._ui.listWidget)
+            item = QtWidgets.QListWidgetItem(self._ui.listWidget)
             item.setText(region_name)
             item.setFlags(QtCore.Qt.ItemIsUserCheckable | item.flags())
             item.setCheckState(QtCore.Qt.Checked)
