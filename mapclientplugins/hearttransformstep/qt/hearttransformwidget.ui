@@ -78,8 +78,8 @@ QToolBox {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>197</width>
-            <height>417</height>
+            <width>124</width>
+            <height>140</height>
            </rect>
           </property>
           <attribute name="label">
@@ -191,8 +191,8 @@ QToolBox {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>197</width>
-            <height>417</height>
+            <width>124</width>
+            <height>192</height>
            </rect>
           </property>
           <attribute name="label">
@@ -283,8 +283,8 @@ QToolBox {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>197</width>
-            <height>417</height>
+            <width>198</width>
+            <height>426</height>
            </rect>
           </property>
           <attribute name="label">
@@ -410,7 +410,7 @@ QToolBox {
   <customwidget>
    <class>TransformWidget</class>
    <extends>QWidget</extends>
-   <header>transformwidget.h</header>
+   <header>mapclientplugins/hearttransformstep/view/transformwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

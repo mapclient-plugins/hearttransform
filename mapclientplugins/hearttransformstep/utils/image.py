@@ -3,9 +3,10 @@ Created on May 21, 2015
 
 @author: hsorby
 '''
-import dicom
+import pydicom
 import os
 import numpy as np
+
 
 def extractImageCorners(directory, filename):
     '''
@@ -14,7 +15,8 @@ def extractImageCorners(directory, filename):
     Corners are returned as:
       [bl, br, tl, tr]
     '''
-    ds = dicom.read_file(os.path.join(directory, filename))
+    ds = pydicom.read_file(os.path.join(directory, filename))
+
     pixel_spacing = ds.PixelSpacing
     delta_i = float(pixel_spacing[0])
     delta_j = float(pixel_spacing[1])
@@ -25,10 +27,10 @@ def extractImageCorners(directory, filename):
     orient_1 = np.array(orient[:3])
     orient_2 = np.array(orient[3:])
     pos = np.array(pos) - delta_i * (0.5 * orient_1 + 0.5 * orient_2)
-    A = np.array([orient[0]*delta_i, orient[3]*delta_j, 0, pos[0],
-                  orient[1]*delta_i, orient[4]*delta_j, 0, pos[1],
-                  orient[2]*delta_i, orient[5]*delta_j, 0, pos[2],
-                                  0,                 0, 0,      1]).reshape(4, 4)
+    A = np.array([orient[0] * delta_i, orient[3] * delta_j, 0, pos[0],
+                  orient[1] * delta_i, orient[4] * delta_j, 0, pos[1],
+                  orient[2] * delta_i, orient[5] * delta_j, 0, pos[2],
+                  0, 0, 0, 1]).reshape(4, 4)
     b_tl = np.array([0, 0, 0, 1])
     b_tr = np.array([rows, 0, 0, 1])
     b_bl = np.array([0, columns, 0, 1])
