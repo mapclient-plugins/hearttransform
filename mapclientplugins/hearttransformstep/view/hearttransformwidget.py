@@ -5,7 +5,7 @@ Created on May 23, 2015
 '''
 import numpy as np
 
-from PySide2 import QtCore, QtWidgets
+from PySide6 import QtCore, QtWidgets
 
 from mapclientplugins.hearttransformstep.view.ui_hearttransformwidget import Ui_HeartTransformWidget
 from mapclientplugins.hearttransformstep.scene.master import HeartTransformScene
