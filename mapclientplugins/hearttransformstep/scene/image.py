@@ -5,10 +5,10 @@ Created on May 23, 2015
 '''
 from mapclientplugins.hearttransformstep.definitions import IMAGE_PLANE_GRAPHIC_NAME, \
     ELEMENT_OUTLINE_GRAPHIC_NAME
-from opencmiss.zinc.field import Field
+from cmlibs.zinc.field import Field
 
 
-# from opencmiss.zinc.glyph import Glyph
+# from cmlibs.zinc.glyph import Glyph
 
 class ImageScene(object):
     '''

@@ -4,8 +4,8 @@ Created on May 23, 2015
 @author: hsorby
 '''
 from mapclientplugins.hearttransformstep.utils.zinc import createFiniteElementField
-from opencmiss.zinc.field import Field
-from opencmiss.zinc.status import OK
+from cmlibs.zinc.field import Field
+from cmlibs.zinc.status import OK
 from mapclientplugins.hearttransformstep.definitions import SELECTION_PART, \
     APEX_PART, BASE_PART, DEPENDENT_PART, RV_PART
 import json

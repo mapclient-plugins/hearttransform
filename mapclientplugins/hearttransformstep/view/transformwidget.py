@@ -5,10 +5,10 @@ Created on May 22, 2015
 '''
 from PySide6 import QtCore
 
-from opencmiss.zincwidgets.sceneviewerwidget import SceneviewerWidget
+from cmlibs.widgets.sceneviewerwidget import SceneviewerWidget
 
 from mapclientplugins.hearttransformstep.maths.algorithms import calculateLinePlaneIntersection
-from opencmiss.zinc.graphics import Graphics
+from cmlibs.zinc.graphics import Graphics
 
 
 class TransformWidget(SceneviewerWidget):

@@ -3,8 +3,8 @@ Created on May 23, 2015
 
 @author: hsorby
 '''
-from opencmiss.zinc.field import Field
-from opencmiss.zinc.glyph import Glyph
+from cmlibs.zinc.field import Field
+from cmlibs.zinc.glyph import Glyph
 from mapclientplugins.hearttransformstep.definitions import SELECTION_PART, \
     BASE_PART, APEX_PART, RV_PART
 

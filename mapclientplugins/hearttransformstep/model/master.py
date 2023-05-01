@@ -3,7 +3,7 @@ Created on May 23, 2015
 
 @author: hsorby
 '''
-from opencmiss.zinc.context import Context
+from cmlibs.zinc.context import Context
 from mapclientplugins.hearttransformstep.model.transform import TransformModel
 from mapclientplugins.hearttransformstep.model.image import ImageModel
 import os

@@ -6,8 +6,8 @@ Created on May 23, 2015
 import re
 import os
 
-from opencmiss.zinc.field import Field
-from opencmiss.zinc.status import OK
+from cmlibs.zinc.field import Field
+from cmlibs.zinc.status import OK
 
 from mapclientplugins.hearttransformstep.definitions import LONG_AXIS, SHORT_AXIS
 from mapclientplugins.hearttransformstep.maths.algorithms import calculatePlaneNormal
