@@ -278,5 +278,4 @@ class TransformModel(object):
         self._fields[RV_PART]['coord'] = rv_field
         for part in self._parts:
             self._fields[part]['group'] = fieldmodule.createFieldGroup()
-            node_group = self._fields[part]['group'].createFieldNodeGroup(nodeset)
-            self._fields[part]['nodeset_group'] = node_group.getNodesetGroup()
+            self._fields[part]['nodeset_group'] = self._fields[part]['group'].createNodesetGroup(nodeset)
