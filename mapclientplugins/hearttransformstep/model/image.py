@@ -8,11 +8,11 @@ import os
 
 from cmlibs.zinc.field import Field
 from cmlibs.zinc.status import OK
+from cmlibs.utils.zinc.field import create_field_coordinates
+from cmlibs.utils.zinc.finiteelement import create_square_element
 
 from mapclientplugins.hearttransformstep.definitions import LONG_AXIS, SHORT_AXIS
 from mapclientplugins.hearttransformstep.maths.algorithms import calculatePlaneNormal
-from mapclientplugins.hearttransformstep.utils.zinc import createFiniteElementField, \
-    create2DFiniteElement
 from mapclientplugins.hearttransformstep.utils.image import extractImageCorners
 
 
@@ -116,9 +116,10 @@ class ImageTexture(object):
         self._region = region
 
         fieldmodule = region.getFieldmodule()
-        self._coordinate_field = createFiniteElementField(region)
+        self._coordinate_field = create_field_coordinates(fieldmodule, managed=True)
         corners = extractImageCorners(directory, filename)
-        create2DFiniteElement(fieldmodule, self._coordinate_field, corners)
+        mesh = fieldmodule.findMeshByDimension(2)
+        create_square_element(mesh, self._coordinate_field, corners)
         self._image_field = self._createImageField(fieldmodule, os.path.join(directory, filename))
         self._material = self._createMaterialUsingImageField(self._image_field)
 

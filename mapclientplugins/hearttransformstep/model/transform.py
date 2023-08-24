@@ -3,9 +3,10 @@ Created on May 23, 2015
 
 @author: hsorby
 '''
-from mapclientplugins.hearttransformstep.utils.zinc import createFiniteElementField
 from cmlibs.zinc.field import Field
 from cmlibs.zinc.status import OK
+from cmlibs.utils.zinc.field import create_field_coordinates
+
 from mapclientplugins.hearttransformstep.definitions import SELECTION_PART, \
     APEX_PART, BASE_PART, DEPENDENT_PART, RV_PART
 import json
@@ -240,9 +241,9 @@ class TransformModel(object):
 
     def _setupRegion(self, region):
         self._region = region.createChild('surfaces')  # self._context.getDefaultRegion().createChild('surfaces')
-        self._coordinate_field = createFiniteElementField(self._region)
         fieldmodule = self._region.getFieldmodule()
         nodeset = fieldmodule.findNodesetByName('nodes')
+        self._coordinate_field = create_field_coordinates(fieldmodule, managed=True)
 
         base_field = fieldmodule.createFieldConstant([1.0, 0.0, 0.0])
         apex_field = fieldmodule.createFieldConstant([0.0, 1.0, 0.0])
@@ -278,5 +279,4 @@ class TransformModel(object):
         self._fields[RV_PART]['coord'] = rv_field
         for part in self._parts:
             self._fields[part]['group'] = fieldmodule.createFieldGroup()
-            node_group = self._fields[part]['group'].createFieldNodeGroup(nodeset)
-            self._fields[part]['nodeset_group'] = node_group.getNodesetGroup()
+            self._fields[part]['nodeset_group'] = self._fields[part]['group'].createNodesetGroup(nodeset)
